@@ -1,8 +1,8 @@
 extern crate petgraph;
 
-use tiny_keccak::{Hasher, Keccak};
+use hex;
 use std::fmt::Display;
-use hex; 
+use tiny_keccak::{Hasher, Keccak};
 #[derive(Debug)]
 pub enum BytesError {
     ComparisonFailed(String, String),
@@ -10,7 +10,7 @@ pub enum BytesError {
     KeccakError(String),
 }
 
-fn keccak256(input: &str) -> Result<String, BytesError>{
+fn keccak256(input: &str) -> Result<String, BytesError> {
     let mut value;
     if input.contains(",") {
         let inputs: Vec<&str> = input.split(",").collect();
@@ -39,10 +39,7 @@ fn keccak256(input: &str) -> Result<String, BytesError>{
     hasher.finalize(&mut digest);
     let hex_string: Vec<String> = digest.iter().map(|b| format!("{:02x}", b)).collect();
     Ok(hex_string.concat())
-
 }
-
-
 
 impl Display for BytesError {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
@@ -59,8 +56,6 @@ impl Display for BytesError {
 }
 
 impl std::error::Error for BytesError {}
-
-
 
 use petgraph::graph::{DiGraph, NodeIndex};
 use petgraph::visit::EdgeRef;
@@ -80,8 +75,6 @@ pub fn encode_packed(addr_str: &str, amount_str: &str) -> String {
     packed.iter().map(|byte| format!("{:02x}", byte)).collect()
 }
 
-
-
 pub fn compare_bytes(a: &str, b: &str) -> Result<std::cmp::Ordering, hex::FromHexError> {
     let a_bytes = hex::decode(a)?;
     let b_bytes = hex::decode(b)?;
@@ -98,8 +91,6 @@ pub fn concat_hex_strings(a: &str, b: &str) -> Result<String, hex::FromHexError>
 
     Ok(hex::encode(concatenated))
 }
-
-
 
 pub fn hash_pair(a: &str, b: &str) -> Result<String, BytesError> {
     let sorted = match compare_bytes(a, b) {

@@ -16,9 +16,22 @@ pub struct Inputs {
     pub state_t: String, // merkle root of the state at t (all the blocks)
     pub blocks_hash: Vec<String>, // hash of each block
 } 
+
+impl Inputs {
+    pub fn to_bytes(&self) -> Vec<u8> {
+        bincode::serialize(self).unwrap()
+    
+    }
+
+    pub fn from_bytes(bytes: &[u8]) -> Self {
+        bincode::deserialize(bytes).unwrap()
+    
+}
+}
 fn main() {
     // read the input
-    let input : Inputs = env::read();
+    let envVar: Vec<u8> = env::read::<Vec<u8>>();
+    let input: Inputs = Inputs::from_bytes(&envVar);
     let binding_input = input.clone();
     println!("Input: {:?}", input);
     let mut combined = Vec::new();

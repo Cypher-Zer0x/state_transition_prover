@@ -9,7 +9,6 @@ bincode = "1.3.3"
 web3 = "0.19.0"
 serde_json = "1.0.113"
 hex = "0.4.3"
-eth_merkle_tree = "0.1.1"
 
 [build-dependencies]
 risc0-build = { version = "0.20.1" }
